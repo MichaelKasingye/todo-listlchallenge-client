@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { SidebarData } from './SidebarData';
+import { Link } from 'react-router-dom'
 
 export default function OnActiveSideMenu() {
   const [show, setShow] = useState(false);
@@ -17,8 +19,25 @@ export default function OnActiveSideMenu() {
           <Offcanvas.Title>Amaakka-Partner</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+          <ul className="sidebar-nav" id="sidebar-nav">
+    <li className="nav-item">
+      <Link className="nav-link " to="/">
+        <i className="bi bi-grid" />
+        <span>Overview</span>
+      </Link>
+    </li>
+    {/* End Dashboard Overview */}
+    
+    <li className="nav-heading">Pages</li>
+    {SidebarData.map((info, idx) => (
+    <li className="nav-item" key={idx}>
+      <Link className="nav-link collapsed" to={info.path}>
+        {info.icon}
+        <span>{info.title}</span>
+      </Link>
+    </li>
+    ))}
+  </ul>
         </Offcanvas.Body>
       </Offcanvas>
     </nav>

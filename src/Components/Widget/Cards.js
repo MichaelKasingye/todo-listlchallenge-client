@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PlaceHolders from "./PlaceHolders";
 
-function index() {
+export  function CardWidget() {
   return (
     <div className="col-lg-8">
       <div className="row">
@@ -50,4 +51,42 @@ function index() {
   );
 }
 
-export default index;
+
+export  function CardWidgetMini({ClientData,loading}) {
+ console.log(ClientData);
+
+  return (
+    <>
+    {!loading?<div className="col-lg-8">
+      <div className="row">
+        <div className="col-xxl-4 col-md-6">
+          <div className="card info-card sales-card">
+            
+            <div className="card-body">
+              <h5 className="card-title">
+                Leads <span>| Number of Leads</span>
+              </h5>
+              <div className="d-flex align-items-center">
+                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i className="bi bi-people" />
+                </div>
+                <div className="ps-3">
+                  <h6>{ClientData.length}</h6>
+                  <span className="text-success small pt-1 fw-bold">
+                    As at
+                  </span>{" "}
+                  <span className="text-muted small pt-2 ps-1">Now</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>:
+    <PlaceHolders/>  
+    }
+    
+    </>
+  );
+}
+
