@@ -17,13 +17,16 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Error from "./Pages/Error";
 import "./App.css";
+import { fetchClientInterestAsync } from "./redux/features/ClientInterest/ClientInterestSlice";
+import { useDispatch } from "react-redux";
 
 
 function App() {
-
+  const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(fetchClientInterestAsync());
     Aos.init({ duration: 900 });
-  }, []);
+  }, [dispatch]);
 
   return (
     <main id="main" className="main">

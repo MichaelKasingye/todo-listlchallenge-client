@@ -10,6 +10,8 @@ import { ClientInterestSelector } from "../redux/features/ClientInterest/ClientI
 
 function Home() {
   const { ClientInterest, loading } = useSelector(ClientInterestSelector);
+
+  
   return (
     <>
       <BodyTitle title="Dashboard" />
