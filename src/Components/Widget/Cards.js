@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PlaceHolders from "./PlaceHolders";
+import {PlaceHolders} from "./PlaceHolders";
 
 export  function CardWidget() {
   return (

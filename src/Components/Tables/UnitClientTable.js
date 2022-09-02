@@ -5,6 +5,7 @@ import {
   ClientInterestSelector,
   updateClientInterestAsync,
 } from "../../redux/features/ClientInterest/ClientInterestSlice";
+import {PlaceHoldersParagraphs} from '../Widget/PlaceHolders'
 import { CSVLink } from "react-csv";
 
 export default function Index() {
@@ -12,7 +13,7 @@ export default function Index() {
   const dispatch = useDispatch();
 
 
-  
+
   const ClientData = ClientInterest.map((info) => ({
     Name: info.data.name,
     Phone_Number: info.data.phoneNumber,
@@ -146,7 +147,7 @@ export default function Index() {
           </tbody>
         </table>
       ) : (
-        "Loading.."
+        <PlaceHoldersParagraphs/>
       )}
     </div>
   );
