@@ -1,45 +1,23 @@
-import React from "react";
+import React from 'react'
 import { Link } from "react-router-dom";
-// import { SidebarData } from "./Sidebar";
-// import { IconContext } from "react-icons";
-import SliderMenu from "./SliderMenu";
 
-// import { useStateValue } from "./ContextAPI/StateProvider";
-
-// import { auth } from "./Firebase/firebase";
-// import { useHistory } from "react-router-dom";
-// import "./navbar.css";
-function Navbar() {
-  //   const history = useHistory();
-
+export default function index() {
   return (
-    <>
-      {/* ======= Header ======= */}
-      {/* <header id="header" className=""> */}
-
-      <nav className=" navbar navbar-expand-lg navbar-light bg-light  header fixed-top d-flex align-items-center">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            Amaakka-Partner
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <SliderMenu />
-          </button>
-        </div>
-      </nav>
-
-      {/* </header> */}
-      {/* End Header */}
-    </>
-  );
+    <div className="pagetitle">
+    <h1>Task List Challenge</h1>
+    <nav>
+      <ul className="breadcrumb">
+        <li className='mx-2'>
+          <Link to="/">Overview</Link>
+        </li>
+        <li className='mx-2'>
+          <Link to="/todo">Todo </Link>
+        </li>
+        <li className='mx-2'>
+          <Link to="/">Tasks-Done <span>2</span> </Link>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  )
 }
-
-export default Navbar;
