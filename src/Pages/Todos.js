@@ -1,11 +1,15 @@
 import React from "react";
+import { TodoSelector } from "../redux/features/Todo/TodoSlice";
+import { useSelector } from 'react-redux';
 // import { Link } from "react-router-dom";
 
 
 // import Cards from "../Components/Card";
 
 function FeaturesPage() {
- 
+  // 
+ const { Todo, loading, hasErrors } = useSelector(TodoSelector)
+console.log(Todo);
 
   return (
     <>

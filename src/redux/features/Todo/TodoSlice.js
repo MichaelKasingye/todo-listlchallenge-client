@@ -42,7 +42,7 @@ export const fetchTodoAsync = () => {
     return async (dispatch) => {
       dispatch(fetchTodo());
       try {
-        getData("interested_Todos").then((Todo) =>  dispatch(fetchTodoSuccess(Todo)));
+        getData().then((Todo) =>  dispatch(fetchTodoSuccess(Todo)));
       } catch (error) {
         dispatch(fetchTodoFailure(error));
       }
