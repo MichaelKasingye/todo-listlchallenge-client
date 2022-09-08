@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   deleteTodoAsync,
   fetchTodoAsync,
@@ -12,6 +12,7 @@ import { useState } from "react";
 // import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTodoData } from "../services/todoQueryService";
 
 // import Cards from "../Components/Card";
 
@@ -30,30 +31,41 @@ function FeaturesPage() {
 
   const { Todo } = useSelector(TodoSelector);
 
-  console.log(Todo);
+  // console.log(Todo);
+  const onSuccess = data => {
+    // console.log({ data:data.data.data})
+   const registrationDataI = { data:data.data.data}
+  }
+  const onError = error => {
+    console.log({ error })
+  }
+  const {isloading, data, isError, error,} = useTodoData(onSuccess,onError, '/')
+  const todoData = data
+  console.log(todoData);
+
   const dispatch = useDispatch();
 
   const [loadingData, setLoadingData] = useState(false);
-  const [data, setData] = useState({
+  const [datas, setDatas] = useState({
     name: "",
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setDatas({ ...datas, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoadingData(true);
-      await postTodoAsync(data);
+      await postTodoAsync(datas);
       dispatch(fetchTodoAsync());
       await notify("Success! Todo Added");
     } catch (error) {
       console.log(e);
     }
     setLoadingData(false);
-    setData({
+    setDatas({
       name: "",
     });
   };
@@ -83,6 +95,9 @@ function FeaturesPage() {
 
   };
 
+  // useEffect(() => {
+  //   dispatch(fetchTodoAsync());
+  // }, [dispatch]);
   return (
     <>
       <ToastContainer
@@ -103,7 +118,7 @@ function FeaturesPage() {
             className="new-task-input"
             placeholder="What do you have planned?"
             name="name"
-            value={data.name}
+            value={datas.name}
             onChange={handleChange}
           />
           <input
@@ -118,9 +133,9 @@ function FeaturesPage() {
         <h2>Tasks</h2>
 
         <div id="tasks">
-          {Todo ? (
+          {todoData ? (
             <div className="task">
-              {Todo.filter(filterData => filterData.status === false).map((info) => (
+              {todoData.data?.filter(filterData => filterData.status === false).map((info) => (
                 <form key={info._id} className="form">
                   <div className="content">
                     <input
@@ -133,9 +148,6 @@ function FeaturesPage() {
                   <div className="actions">
                     <button className="check" onClick={() => handleStatus(info._id)}>
                       <i className="bi bi-check"></i>
-                    </button>
-                    <button className="edit">
-                      <i className="bi bi-pencil-square"></i>
                     </button>
                     <button
                       className="delete"

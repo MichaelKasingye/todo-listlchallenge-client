@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import app from "../config/firebase";
 
-const BaseUrl = "http://localhost:4000/api/v1/todos/";
+const BaseUrl = "http://localhost:4000/api/v1/todos";
 // const BaseUrl = "https://sprintug-challenge.herokuapp.com/api/v1/todos";
 
 export async function getData() {

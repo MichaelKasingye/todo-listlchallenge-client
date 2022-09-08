@@ -5,8 +5,8 @@ import { TodoSelector } from '../../redux/features/Todo/TodoSlice';
 
 export default function Index() {
   const { Todo } = useSelector(TodoSelector);
-const doneTaskLength = Todo.filter((filterData) => filterData.status === true).length;
-const newTaskLength = Todo.filter((filterData) => filterData.status === false).length;
+// const doneTaskLength = Todo?.filter((filterData) => filterData.status === true).length;
+// const newTaskLength = Todo?.filter((filterData) => filterData.status === false).length;
 
 
   return (
@@ -15,10 +15,14 @@ const newTaskLength = Todo.filter((filterData) => filterData.status === false).l
     <nav>
       <ul className="breadcrumb">
         <li className='mx-2'>
-          <Link to="/">Todo{" "}<span>{newTaskLength}</span></Link>
+          <Link to="/">Todo{" "}<span>
+            {/* {newTaskLength} */}
+            </span></Link>
         </li>
         <li className='mx-2'>
-          <Link to="/tasks-done">Tasks-Done <span>{doneTaskLength}</span> </Link>
+          <Link to="/tasks-done">Tasks-Done <span>
+            {/* {doneTaskLength} */}
+          </span> </Link>
         </li>
       </ul>
     </nav>
