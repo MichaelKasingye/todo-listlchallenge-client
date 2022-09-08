@@ -7,6 +7,7 @@ import {
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTodoData } from "../services/todoQueryService";
 
 export default function TasksDone() {
 
@@ -21,9 +22,22 @@ export default function TasksDone() {
       progress: undefined,
     });
 
-  const { Todo } = useSelector(TodoSelector);
+  // const { Todo } = useSelector(TodoSelector);
 
-  console.log(Todo);
+  // console.log(Todo);
+  const {isloading, data, isError, error,} = useTodoData(onSuccess,onError, '/')
+  console.log(data);
+
+  const onSuccess = data => {
+    // console.log({ data:data.data.data})
+   const registrationDataI = { data:data.data.data}
+  }
+  const onError = error => {
+    console.log({ error })
+  }
+
+
+
 
   const handleDelete = async (id) => {
     await notify("Success! Todo Deleted");
@@ -60,8 +74,8 @@ export default function TasksDone() {
       <section className="task-list">
         <h2>Tasks Done</h2>
 
-        <div id="tasks">
-          {Todo ? (
+        {/* <div id="tasks">
+          {!Todo === "undefined" ? (
             <div className="task">
               {Todo.filter((filterData) => filterData.status === true).map(
                 (info) => (
@@ -81,9 +95,6 @@ export default function TasksDone() {
                       >
                         <span className="fs-6">completed</span>
                       </button>
-                      <button className="edit">
-                        <i className="bi bi-pencil-square"></i>
-                      </button>
                       <button
                         className="delete"
                         onClick={() => handleDelete(info._id)}
@@ -98,7 +109,7 @@ export default function TasksDone() {
           ) : (
             "LOADING.."
           )}
-        </div>
+        </div> */}
       </section>
     </>
   );
