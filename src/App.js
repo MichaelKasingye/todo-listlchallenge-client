@@ -11,8 +11,7 @@ import Modals from "./Components/Modals";
 import Todos from "./Pages/Todos";
 import SubmitFeedBack from "./Pages/SubmitFeedBack";
 
-import Home from "./Pages/Home";
-import About from "./Pages/About";
+import TasksDone from "./Pages/TasksDone";
 import Error from "./Pages/Error";
 import "./App.css";
 import { useDispatch } from "react-redux";
@@ -35,9 +34,9 @@ function App() {
       {/* <Sidebar /> */}
 
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="/todo" element={<Todos />} />
-        <Route path="/about" element={<About />} />
+        <Route index element={<Todos />} />
+        {/* <Route path="/todo" element={<Todos />} /> */}
+        <Route path="/tasks-done" element={<TasksDone />} />
         <Route path="/submit-feedback" element={<SubmitFeedBack />} />
 
         <Route path="*" element={<Error />} />

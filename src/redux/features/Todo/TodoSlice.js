@@ -1,35 +1,40 @@
-import {createSlice} from "@reduxjs/toolkit";
-import UpdateData, { getData } from "../../../services/fetchData";
+import { createSlice } from "@reduxjs/toolkit";
+import UpdateStatusData from "../../../services/fetchData";
+import  {
+  deleteData,
+  getData,
+  postData,
+} from "../../../services/fetchData";
 
 const initialState = {
-    Todo: '',
-    loading: false,
-    hasErrors: false,
+  Todo: "",
+  loading: false,
+  hasErrors: false,
 };
 
 export const TodoSlice = createSlice({
-    name: "Todo",
-    initialState,
-    reducers: {
-      fetchTodo: (state) => {
-        state.loading = true;
-      },
-      fetchTodoSuccess: (state, { payload }) => {
-        state.Todo = payload;
-        state.loading = false;
-        state.hasErrors = false;
-      },
-      fetchTodoFailure: (state) => {
-        state.loading = false;
-        state.hasErrors = true;
-      },
-      filterTodo: (state, { payload }) => {
-        state.Todo = payload;
-      },
+  name: "Todo",
+  initialState,
+  reducers: {
+    fetchTodo: (state) => {
+      state.loading = true;
     },
-  });
+    fetchTodoSuccess: (state, { payload }) => {
+      state.Todo = payload;
+      state.loading = false;
+      state.hasErrors = false;
+    },
+    fetchTodoFailure: (state) => {
+      state.loading = false;
+      state.hasErrors = true;
+    },
+    filterTodo: (state, { payload }) => {
+      state.Todo = payload;
+    },
+  },
+});
 
-  export const { fetchTodo, fetchTodoSuccess, fetchTodoFailure } =
+export const { fetchTodo, fetchTodoSuccess, fetchTodoFailure } =
   TodoSlice.actions;
 
 // a selector
@@ -39,25 +44,36 @@ export default TodoSlice.reducer;
 
 // Asynchronous thunk action
 export const fetchTodoAsync = () => {
-    return async (dispatch) => {
-      dispatch(fetchTodo());
-      try {
-        getData().then((Todo) =>  dispatch(fetchTodoSuccess(Todo)));
-      } catch (error) {
-        dispatch(fetchTodoFailure(error));
-      }
-    };
+  return async (dispatch) => {
+    dispatch(fetchTodo());
+    try {
+      getData().then((Todo) => dispatch(fetchTodoSuccess(Todo)));
+    } catch (error) {
+      dispatch(fetchTodoFailure(error));
+    }
   };
-  
-  export const updateTodoAsync = (id, data) => {
-    return async (dispatch) => {
-        UpdateData(id, "interested_Todos", data)
-        .then(() => {
-            // getSpecificData("interested_Todos", id).then((Todo) => dispatch(fetchTodoSuccess(Todo)));
-            getData("interested_Todos").then((Todo) =>  dispatch(fetchTodoSuccess(Todo)));
-        })
-        .catch((error) => {
-          dispatch(fetchTodoFailure(error));
-        });
-    };
-  };
+};
+
+export const postTodoAsync = async (data) => {
+  try {
+    await postData(data);
+  } catch (error) {
+    fetchTodoFailure(error);
+  }
+};
+
+export const deleteTodoAsync = async (id) => {
+  try {
+    await deleteData(id);
+  } catch (error) {
+    fetchTodoFailure(error);
+  }
+};
+
+export const updateStatusTodoAsync = async (id, data) => {
+  try {
+    await UpdateStatusData(id, data);
+  } catch (error) {
+    fetchTodoFailure(error);
+  }
+};
