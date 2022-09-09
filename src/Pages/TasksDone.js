@@ -1,13 +1,9 @@
+
+/* eslint-disable no-unused-vars */
 import React from "react";
-import {
-  deleteTodoAsync,
-  TodoSelector,
-  updateStatusTodoAsync,
-} from "../redux/features/Todo/TodoSlice";
-import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useTodoData } from "../services/todoQueryService";
+import { todoIdDelete, todoIdStatus, useTodoData } from "../services/todoQueryService";
 
 export default function TasksDone() {
 
@@ -22,28 +18,20 @@ export default function TasksDone() {
       progress: undefined,
     });
 
-  // const { Todo } = useSelector(TodoSelector);
-
-  // console.log(Todo);
-  const {isloading, data, isError, error,} = useTodoData(onSuccess,onError, '/')
-  console.log(data);
-
+ 
   const onSuccess = data => {
-    // console.log({ data:data.data.data})
-   const registrationDataI = { data:data.data.data}
+   const todoDataI = { data:data.data.data}
   }
   const onError = error => {
     console.log({ error })
   }
-
-
+  const {data} = useTodoData(onSuccess,onError, '/')
 
 
   const handleDelete = async (id) => {
-    await notify("Success! Todo Deleted");
     try {
-      await deleteTodoAsync(id);
-
+      await todoIdDelete(id)
+      await notify("Success! Todo Deleted");
     } catch (error) {
       console.log(error);
     }
@@ -51,9 +39,8 @@ export default function TasksDone() {
 
   const handleStatus = async (id) => {
     try {
+      await todoIdStatus(id, {status: false})
       await notify("Success! Todo Shifted back");
-      await updateStatusTodoAsync(id, { status: false });
-
     } catch (error) {
       console.log(error);
     }
@@ -74,10 +61,10 @@ export default function TasksDone() {
       <section className="task-list">
         <h2>Tasks Done</h2>
 
-        {/* <div id="tasks">
-          {!Todo === "undefined" ? (
+        <div id="tasks">
+          {data ? (
             <div className="task">
-              {Todo.filter((filterData) => filterData.status === true).map(
+              {data.data.filter((filterData) => filterData.status === true).map(
                 (info) => (
                   <form key={info._id} className="form">
                     <div className="content">
@@ -107,9 +94,20 @@ export default function TasksDone() {
               )}
             </div>
           ) : (
-            "LOADING.."
+            <div >
+            <h4>loading...</h4>
+            <span className="btn btn-danger placeholder-glow col-6" />
+            <span className="placeholder w-75" />
+            <span className="placeholder" style={{ width: "25%" }} />
+            <span className="btn btn-danger placeholder-glow col-6" />
+            <span className="placeholder w-75" />
+            <span className="placeholder" style={{ width: "25%" }} />
+            <span className="btn btn-danger placeholder-glow col-6" />
+            <span className="placeholder w-75" />
+            <span className="placeholder" style={{ width: "25%" }} />
+          </div>
           )}
-        </div> */}
+        </div>
       </section>
     </>
   );
