@@ -19,4 +19,8 @@ yarn start
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+or
+
+Open [link](https://todo-list-client-react.netlify.app/) to view site.
+
 Thank you
