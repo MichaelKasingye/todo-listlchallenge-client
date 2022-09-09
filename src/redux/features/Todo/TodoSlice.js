@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import UpdateStatusData from "../../../services/fetchData";
-import  {
-  deleteData,
-  getData,
-  postData,
-} from "../../../services/fetchData";
+import { deleteData, getData, postData } from "../../../services/fetchData";
 
 const initialState = {
   Todo: "",
@@ -43,6 +39,17 @@ export const TodoSelector = (state) => state?.Todo;
 export default TodoSlice.reducer;
 
 // Asynchronous thunk action
+export const updateCurrentTodoAsync = (updateCurrentTodo) => {
+  return async (dispatch) => {
+    dispatch(fetchTodo());
+    try {
+      dispatch(fetchTodoSuccess(updateCurrentTodo));
+    } catch (error) {
+      dispatch(fetchTodoFailure(error));
+    }
+  };
+};
+
 export const fetchTodoAsync = () => {
   return async (dispatch) => {
     dispatch(fetchTodo());
