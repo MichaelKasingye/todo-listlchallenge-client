@@ -7,21 +7,13 @@ function getAllTodo(endpoint) {
   return request({ url: `${urlEndPoint}` });
 }
 
-const addTodoContacts = (infoData) => {
-  return request({ url: "/contacts", method: "post", data: infoData });
+const addTodo = (infoData) => {
+  return request({ url: "/", method: "post", data: infoData });
 };
-const addTodoCourse = (infoData) => {
-  return request({ url: "/courses", method: "post", data: infoData });
-};
-const addTodoTrainingSchool = (infoData) => {
-  return request({ url: "/trainingSchools", method: "post", data: infoData });
-};
-const editTodoTrainingSchool = (infoData) => {
-  return request({ url: "/trainingSchools", method: "post", data: infoData });
-};
+
 const entryId = ({ queryKey }) => {
   const id = queryKey[1];
-  return request({ url: `/trainingSchools/${id}` });
+  return request({ url: `/${id}` });
 };
 
 export const useTodoData = (onSuccess, onError, endpoint) => {
@@ -31,21 +23,23 @@ export const useTodoData = (onSuccess, onError, endpoint) => {
   });
 };
 
-export const useAddEntryContacts = () => {
-  return useMutation(addTodoContacts);
-};
-export const useAddEntryCourse = () => {
-  return useMutation(addTodoCourse);
-};
-export const useAddTrainingSchool = () => {
-  return useMutation(addTodoTrainingSchool);
+export const useAddTodo = () => {
+  return useMutation(addTodo);
 };
 
-export const useEntryId = (id) => {
+export const useTodoId = (id) => {
   const queryClient = useQueryClient();
-  return useQuery(["trainingSchools", id], entryId);
+  return useQuery(["/", id], entryId);
 };
 
-export const entryIdDelete = (id) => {
-  return request({ url: `/trainingSchools/${id}`, method: "delete" });
+export const todoIdDelete = (id) => {
+  return request({ url: `/${id}`, method: "delete" });
+};
+
+export const todoIdStatus = (id, infoData) => {
+  return request({ url: `/${id}`, method: "put", data: infoData });
+};
+
+export const AddTodo = (infoData) => {
+  return request({ url: `/`, method: "post", data: infoData });
 };

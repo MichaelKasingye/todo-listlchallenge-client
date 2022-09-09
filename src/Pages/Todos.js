@@ -1,20 +1,15 @@
-import React, { useEffect } from "react";
-import {
-  deleteTodoAsync,
-  fetchTodoAsync,
-  postTodoAsync,
-  TodoSelector,
-  updateStatusTodoAsync,
-} from "../redux/features/Todo/TodoSlice";
-import { useDispatch, useSelector } from "react-redux";
-// import { useHistory } from 'react-router-dom'
+/* eslint-disable no-unused-vars */
+
+import React from "react";
 import { useState } from "react";
-// import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useTodoData } from "../services/todoQueryService";
-
-// import Cards from "../Components/Card";
+import {
+  AddTodo,
+  todoIdDelete,
+  todoIdStatus,
+  useTodoData,
+} from "../services/todoQueryService";
 
 function FeaturesPage() {
   // React toastify
@@ -29,21 +24,13 @@ function FeaturesPage() {
       progress: undefined,
     });
 
-  const { Todo } = useSelector(TodoSelector);
-
-  // console.log(Todo);
-  const onSuccess = data => {
-    // console.log({ data:data.data.data})
-   const registrationDataI = { data:data.data.data}
-  }
-  const onError = error => {
-    console.log({ error })
-  }
-  const {isloading, data, isError, error,} = useTodoData(onSuccess,onError, '/')
-  const todoData = data
-  console.log(todoData);
-
-  const dispatch = useDispatch();
+  const onSuccess = (data) => {
+    const TodoDataI = { data: data.data.data };
+  };
+  const onError = (error) => {
+    console.log({ error });
+  };
+  const { data } = useTodoData(onSuccess, onError, "/");
 
   const [loadingData, setLoadingData] = useState(false);
   const [datas, setDatas] = useState({
@@ -54,15 +41,14 @@ function FeaturesPage() {
     setDatas({ ...datas, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     try {
       setLoadingData(true);
-      await postTodoAsync(datas);
-      dispatch(fetchTodoAsync());
+      AddTodo(datas);
       await notify("Success! Todo Added");
     } catch (error) {
-      console.log(e);
+      console.log(error);
     }
     setLoadingData(false);
     setDatas({
@@ -70,34 +56,25 @@ function FeaturesPage() {
     });
   };
   const handleDelete = async (id) => {
+    // e.preventDefault();
     try {
+      console.log(id);
+      await todoIdDelete(id);
       await notify("Success! Todo Deleted");
-      await deleteTodoAsync(id);
-      await notify("Success! Todo Deleted");
-
-
     } catch (error) {
       console.log(error);
     }
-
   };
 
   const handleStatus = async (id) => {
     try {
+      await todoIdStatus(id, { status: true });
       await notify("Success! Todo Completed");
-
-      await updateStatusTodoAsync(id, {status: true});
-      await notify("Success! Todo Completed");
-
     } catch (error) {
       console.log(error);
     }
-
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchTodoAsync());
-  // }, [dispatch]);
   return (
     <>
       <ToastContainer
@@ -121,11 +98,15 @@ function FeaturesPage() {
             value={datas.name}
             onChange={handleChange}
           />
-          <input
-            type="submit"
-            className="new-task-submit"
-            value={loadingData ? "Adding..." : "Add"}
-          />
+          {datas.name !== "" ? (
+            <input
+              type="submit"
+              className="new-task-submit"
+              value={loadingData ? "Adding..." : "Add"}
+            />
+          ) : (
+            " "
+          )}
         </form>
       </header>
 
@@ -133,34 +114,52 @@ function FeaturesPage() {
         <h2>Tasks</h2>
 
         <div id="tasks">
-          {todoData ? (
+          {data ? (
             <div className="task">
-              {todoData.data?.filter(filterData => filterData.status === false).map((info) => (
-                <form key={info._id} className="form">
-                  <div className="content">
-                    <input
-                      type="text"
-                      className="text"
-                      defaultValue={info.name}
-                      readOnly
-                    />
-                  </div>
-                  <div className="actions">
-                    <button className="check" onClick={() => handleStatus(info._id)}>
-                      <i className="bi bi-check"></i>
-                    </button>
-                    <button
-                      className="delete"
-                      onClick={() => handleDelete(info._id)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </form>
-              ))}
+              {data.data
+                ?.filter((filterData) => filterData.status === false)
+                .map((info) => (
+                  <form key={info._id} className="form">
+                    <div className="content">
+                      <input
+                        type="text"
+                        className="text"
+                        defaultValue={info.name}
+                        readOnly
+                      />
+                    </div>
+                    <div className="actions">
+                      <button
+                        className="check"
+                        onClick={() => handleStatus(info._id)}
+                      >
+                        <i className="bi bi-check"></i>
+                      </button>
+                      <button
+                        className="delete"
+                        onClick={() => handleDelete(info._id)}
+                        // onClick={() => (deleteData(info._id))}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </form>
+                ))}
             </div>
           ) : (
-            "LOADING.."
+
+            <div >
+              <h4>loading...</h4>
+              <span className="btn btn-danger placeholder-glow col-6" />
+              <span className="placeholder w-75" />
+              <span className="placeholder" style={{ width: "25%" }} />
+              <span className="btn btn-danger placeholder-glow col-6" />
+              <span className="placeholder w-75" />
+              <span className="placeholder" style={{ width: "25%" }} />
+              <span className="btn btn-danger placeholder-glow col-6" />
+              <span className="placeholder w-75" />
+              <span className="placeholder" style={{ width: "25%" }} />
+            </div>
           )}
         </div>
       </section>
